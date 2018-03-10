@@ -97,7 +97,7 @@ def loadPlayerDictionary(pathToFile):
         json_dict = json.loads(f.read())
         for player_name in json_dict:
             parsed_player = Player(None,None,False)
-            parsed_player.__dict__ = json_dict[player_name]
+            parsed_player.__dict__ = json.loads(json_dict[player_name])
             result[player_name] = parsed_player
     return result
 

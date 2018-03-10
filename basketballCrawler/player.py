@@ -6,7 +6,7 @@ import json
 class Player(object):
     # Regex patterns for player info
     POSN_PATTERN = u'(Point Guard|Center|Power Forward|Shooting Guard|Small Forward)'
-    HEIGHT_PATTERN = u'([0-9]-[0-9]{1,2})'
+    HEIGHT_PATTERN = u'([1-9]-[0-9]{1,2})'
     WEIGHT_PATTERN = u'([0-9]{2,3})lb'
 
     name = None
@@ -37,7 +37,7 @@ class Player(object):
             self.scrape_data()
 
     def scrape_data(self):
-        print self.name,self.overview_url
+        print (self.name,self.overview_url)
         if self.overview_url_content is not None:
             raise Exception("Can't populate this!")
 
@@ -48,10 +48,11 @@ class Player(object):
             player_position_text = overview_soup.findAll(text=re.compile(u'(Point Guard|Center|Power Forward|Shooting Guard|Small Forward)'))[0]
             player_height_text = overview_soup.findAll(text=re.compile(self.HEIGHT_PATTERN))[0]
             player_weight_text = overview_soup.findAll(text=re.compile(self.WEIGHT_PATTERN))[0]
-            self.height = re.findall(self.HEIGHT_PATTERN,player_height_text)[0].strip().encode("utf8")
-            self.weight = re.findall(self.WEIGHT_PATTERN,player_weight_text)[0].strip().encode("utf8")
+            self.height = re.findall(self.HEIGHT_PATTERN,player_height_text)[0].strip().encode("utf-8")
+            print self.height
+            self.weight = re.findall(self.WEIGHT_PATTERN,player_weight_text)[0].strip().encode("utf-8")
             tempPositions = re.findall(self.POSN_PATTERN,player_position_text)
-            self.positions = [position.strip().encode("utf8") for position in tempPositions]
+            self.positions = [position.strip().encode("utf-8") for position in tempPositions]
 
         except Exception as ex:
             logging.error(ex.message)
