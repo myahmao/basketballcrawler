@@ -26,14 +26,14 @@ import basketballCrawler as bc
         self.gamelog_url_list = []
 '''
 
-client = MongoClient('34.212.20.96', 27017)
+client = MongoClient('localhost', 27017)
 coll_name = 'Player'
 db = client['nba_player']
 #db.authenticate(user[1], user[2])
 collection = db[coll_name]
 
 players = bc.loadPlayerDictionary("player.json")
-#print players['LeBron James'].overview_url
+#print players['LeBron James'].gamelog_url_list[-1]
 
 for key in players.keys():
 	positions = players[key].positions
@@ -41,6 +41,7 @@ for key in players.keys():
 	player_name =  str(key.decode('utf-8')).title()
 	height = players[key].height
 	weight = players[key].weight
+	overview_url = players[key].overview_url
 
 	name = str(key.decode('utf-8')).split(' ')
 	firstname = name[0]
@@ -58,17 +59,20 @@ for key in players.keys():
 	lastname = lastname.title()
 	print firstname,lastname
 
-	#userRecord = collection.find_one({'lastname': lastname, 'firstname': firstname})
-	#if not userRecord:
+	userRecord = collection.find_one({'lastname': lastname, 'firstname': firstname})
+
+	if not userRecord:
 	
-	collection.insert({'firstname'    : firstname,
+		collection.insert({'firstname'    : firstname,
                            'lastname'   : lastname,
                            'name': player_name,
                            'height'   : height,
                            'weight'   : weight,
                            'positions' : positions,
+                           'overview_url': overview_url,
                           })
-    
+    		
+
 	#print len(players.keys())
 	'''
 	try:
