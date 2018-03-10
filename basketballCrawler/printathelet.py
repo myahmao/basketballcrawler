@@ -1,9 +1,11 @@
 import json
 from pprint import pprint
+from nba_py import player
+
 
 data = json.load(open('player.json'))
 
-pprint (data['Stephen Curry'])
+#pprint (data['Stephen Curry'])
 
 i =0
 for key in data.keys():
@@ -14,10 +16,41 @@ for key in data.keys():
 import basketballCrawler as bc
 
 #players = bc.buildPlayerDictionary()
-
+'''
+        self.positions = []
+        self.height = None
+        self.weight = None
+        self.overview_url_content = None
+        self.gamelog_data = None
+        self.gamelog_url_list = []
+'''
 players = bc.loadPlayerDictionary("player.json")
-print players['LeBron James'].gamelog_url_list
+print players['LeBron James'].overview_url
 
-#for key in players.keys():
-#	print key.decode('utf-8')
-print len(players.keys())
+for key in players.keys():
+	name = str(key.decode('utf-8')).split(' ')
+	firstname = name[0]
+	if len(name) == 2:
+		lastname = name [1] 
+	if len(name) == 3:
+		if 'Jr' in name[2]:
+			lastname = name[1].strip(',')
+			print lastname
+		else :
+			lastname = name[2]
+			midname = name[1]
+
+	#print firstname, lastname
+	#print len(players.keys())
+
+	try:
+		get_player = player.get_player(firstname, last_name=lastname)
+		#print get_player
+
+		player_id = get_player.values[0]
+		#print player_id
+		player_summary = player.PlayerSummary(player_id)
+
+		print firstname, lastname+':', player_summary.info()["TEAM_CITY"][0],player_summary.info()["TEAM_NAME"][0]
+	except:
+		print 'player not found'
