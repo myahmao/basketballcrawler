@@ -52,15 +52,23 @@
             <h1><a href="/">Zillicast</a></h1>
             <form class="form-signin" name='submit_form' method="post" action="{{ url_for('result') }}">
             <label for="inputName" class="sr-only">Name</label>
-            <input type="name" id='name_box' class="form-control" placeholder="keyword" name="searchKeyword"  /> 
+            <input type="name" id='name_box' class="form-control" placeholder="Player Name" name="searchKeyword"  /> 
 
             <p class="lead"></p>
-            <p><input class="btn btn-lg btn-primary" role="button" type="submit" value="Search" /></p>
+            <p><input class="btn btn-lg btn-primary" role="button" type="submit" value="Search Player" /></p>
+            <!--p><a href="javascript:void();"  class="btn btn-lg btn-primary" id="calculate" type=submit>Search</a></p-->
+            </form>
+
+            <form class="form-signin" name='submit_form' method="post" action="{{ url_for('team') }}">
+            <label for="inputName" class="sr-only">Name</label>
+            <input type="name" id='name_box' class="form-control" placeholder="Team Name" name="searchKeyword"  /> 
+            <p class="lead"></p>
+            <p><input class="btn btn-lg btn-primary" role="button" type="submit" value="Search Team" /></p>
             <!--p><a href="javascript:void();"  class="btn btn-lg btn-primary" id="calculate" type=submit>Search</a></p-->
             </form>
 
             <form class="form-signin" name='submit_form' method="post" action="{{ url_for('health') }}">
-            <p><input class="btn btn-lg btn-primary" role="button" type="submit" name="health" value="Health Check" /></p>
+            <p><input class="btn btn-lg btn-primary" role="button" type="submit" name="health" value="Correction" /></p>
             <!--p><a href="javascript:void();"  class="btn btn-lg btn-primary" id="calculate" type=submit>Search</a></p-->
             </form>
 

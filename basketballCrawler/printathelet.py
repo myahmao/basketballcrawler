@@ -60,7 +60,6 @@ for key in players.keys():
 	print i, firstname,lastname
 	i+=1
 
-
 	userRecord = collection.find_one({'lastname': lastname, 'firstname': firstname})
 
 	if not userRecord:
@@ -99,7 +98,7 @@ for key in players.keys():
 			collection.update_one(
 	                  {'lastname': lastname, 'firstname': firstname},
 	                  {
-	                    "$set" :  {'birtdate':birthday,
+	                    "$set" :  {'birthdate':birthday,
 	                    			'from_year':from_year,
 	                    			'jersey':jersey,
 	                    			'school':school,

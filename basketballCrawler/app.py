@@ -139,7 +139,8 @@ def search():
 def result():
 
     _name = request.form['searchKeyword']
-    print _name 
+    _name = _name.title()
+    print _name
 
     global dbName
 
@@ -173,20 +174,9 @@ def result():
                     result_temp += str(value) + ','
                 result_temp += '\n'
             else :
-                result_temp += str(item) + ':' + str(data[item])+'\n'
+                result_temp += str(item) + ' : ' + str(data[item])+'\n'
 
-            if 'vdcID' in str(item):
-                vdc_id = item['vdcID']
-                print 223, vdc_id, item
-                result_temp[vdc_id] = ''
-                for key in item:
-                    result_temp [vdc_id] += str(key) +':'+ str(item[key]) + '\n'
-            	result_temp[vdc_id] += '\n'
 
-                if vdc_id not in datadict[col].keys():            
-                    datadict[col][vdc_id] = result_temp[vdc_id]
-                else :
-                    datadict[col][vdc_id] +=result_temp[vdc_id]
     datadict[_name]= result_temp
     print 244,datadict
 
@@ -198,6 +188,58 @@ def result():
     #pprint (datadict)
     #print 256, 'send coll is ', colls
     return render_template('result.html', data=datadict, colls=col)
+
+@app.route('/team/', methods=['GET', 'POST'])
+def team():
+
+    _name = request.form['searchKeyword']
+    _name = _name.title()
+    print _name 
+
+
+    '''client = MongoClient('34.212.20.96:27017')
+    db = client['nba_player']
+    collection = client['Player']
+    '''
+    client = MongoClient('34.212.20.96', 27017)
+    coll_name = 'Player'
+    db = client['nba_player']
+    #db.authenticate(user[1], user[2])
+    collection = db[coll_name]
+  
+    datadict = {}
+
+
+    #data = collection.find({'$text':{'$search': _name}}, {'_id':0})
+    
+    #data = collection.find({'$text':{'$search': _name}}, {'_id':0})
+    result_temp = ''
+    datadict[_name] = ''
+
+    cursor = collection.find({'team': _name}, {'_id':0})
+
+    for data in cursor:
+        print 218, data
+        result_temp += 'Jersey ' + str(data['jersey'])+ ': '+str(data['name'])+'\n'
+    col = 'Player'
+
+
+    '''for item in data:
+            pprint(item)
+            
+            if item == 'positions':
+                result_temp += str(item) + ':'
+                for value in data[item]:
+                    result_temp += str(value) + ','
+                result_temp += '\n'
+            else :
+                result_temp += str(item) + ':' + str(data[item])+'\n'
+    '''
+    datadict[_name]= result_temp
+    print 244,datadict
+
+
+    return render_template('team.html', data=datadict, colls=col)
 
 @app.route('/health/', methods=['GET', 'POST'])
 def health():
