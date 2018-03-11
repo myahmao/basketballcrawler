@@ -1,0 +1,89 @@
+<html>
+<head>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <script src="http://requirejs.org/docs/release/2.2.0/minified/require.js"></script>
+    <link href="//netdna.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+          rel="stylesheet">
+    <!--link href="http://getbootstrap.com/examples/jumbotron-narrow/jumbotron-narrow.css" rel="stylesheet"-->
+    <link href="../static/css/signup.css" rel="stylesheet">
+    <link href="../static/css/jumbotron-narrow.css" rel="stylesheet">
+	<meta name = "viewpoint" content="width=device-width, intial-scale=1"/>
+	<title>NXOOOS</title>
+	<style>
+.dropbtn {
+    background-color: #4CAF50;
+    color: white;
+    padding: 16px;
+    font-size: 16px;
+    border: none;
+    cursor: pointer;
+}
+
+.dropbtn:hover, .dropbtn:focus {
+    background-color: #3e8e41;
+}
+
+.dropdown {
+    float: right;
+    position: relative;
+    display: inline-block;
+    
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    min-width: 160px;
+    overflow: auto;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    right: 0;
+    z-index: 1;
+}
+
+.dropdown-content a {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+}
+
+.keyword {
+    color: orange;
+}
+.dropdown a:hover {background-color: #f1f1f1}
+
+.show {display:block;}
+</style>
+</head>
+<body>
+
+ <div class="container">
+      <div class="header">
+        <h3 class="text-muted" id='h-header'><a href="/">NXOOOOS</a></h3>
+      </div>
+
+    <div class="jumbotron">
+        <h1><a onclick="window.open('/search', '_blank')" \>NXOOOOS</a></h1>
+
+    </div>
+    <p id="demo"></p>
+    <div id="frame">
+      <div class="row" id="row1">
+      <div align="center" class="col-lg-12 col-md-auto centerfy">
+      	<h3 class="text-muted">Health Check Result</h3>
+      	<div id="text-field1">
+          <textarea readonly rows="20" cols="80" font-size:12px class="text_outputs" id="text_output">{{ data }}</textarea>
+      	</div>
+      </div>
+     </div> <!--row-->
+     <p class="lead" id='lead1'></p>
+  </div> <!--frame-->
+
+  {% include 'footer.html' %}
+
+</div>
+
+
+</body>
+</html>
