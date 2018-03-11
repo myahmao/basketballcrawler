@@ -1,0 +1,366 @@
+<html>
+<head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.css"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-highlighttextarea/3.1.3/jquery.highlighttextarea.js"></script>
+
+    <script src="http://requirejs.org/docs/release/2.2.0/minified/require.js"></script>
+    <link href="//netdna.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+          rel="stylesheet">
+    <!--link href="http://getbootstrap.com/examples/jumbotron-narrow/jumbotron-narrow.css" rel="stylesheet"-->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-highlighttextarea/3.1.3/jquery.highlighttextarea.min.css">
+    <link href="../static/css/signup.css" rel="stylesheet">
+    <link href="../static/css/jumbotron-narrow.css" rel="stylesheet">
+	<meta name = "viewpoint" content="width=device-width, intial-scale=1"/>
+	<title>ZilliCast</title>
+	<style>
+.dropbtn {
+    background-color: #4CAF50;
+    color: white;
+    padding: 16px;
+    font-size: 16px;
+    border: none;
+    cursor: pointer;
+}
+
+.dropbtn:hover, .dropbtn:focus {
+    background-color: #3e8e41;
+}
+
+.dropdown {
+    float: right;
+    position: relative;
+    display: inline-block;
+    
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    min-width: 160px;
+    overflow: auto;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    right: 0;
+    z-index: 1;
+}
+
+.dropdown-content a {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+}
+
+.dropdown a:hover {background-color: #f1f1f1}
+
+.show {display:block;}
+
+@import url(https://fonts.googleapis.com/css?family=Open+Sans);
+
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+
+
+.container{}
+
+.backdrop, textarea {
+  width: 450px;
+  height: 280px;
+}
+
+.highlights, textarea {
+  padding: 10px;
+  font: 20px/28px 'Open Sans', sans-serif;
+  letter-spacing: 1px;
+}
+
+.container {
+  display: block;
+  margin: 0 auto;
+  transform: translateZ(0);
+  -webkit-text-size-adjust: none;
+}
+
+.backdrop {
+  position: absolute;
+  z-index: 1;
+  border: 2px solid #685972;
+  background-color: #fff;
+  overflow: auto;
+  pointer-events: none;
+  transition: transform 1s;
+}
+
+.highlights {
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  color: transparent;
+}
+
+textarea {
+  display: block;
+  position: absolute;
+  z-index: 2;
+  margin: 0;
+  border: 2px solid #74637f;
+  border-radius: 0;
+  color: #444;
+  background-color: transparent;
+  overflow: auto;
+  resize: none;
+  transition: transform 1s;
+}
+
+mark {
+  border-radius: 3px;
+  color: transparent;
+  background-color: #b1d5e5;
+}
+
+button {
+  display: block;
+  width: 300px;
+  margin: 30px auto 0;
+  padding: 10px;
+  border: none;
+  border-radius: 6px;
+  color: #fff;
+  background-color: #74637f;
+  font: 18px 'Opens Sans', sans-serif;
+  letter-spacing: 1px;
+  appearance: none;
+  cursor: pointer;
+}
+
+.perspective .backdrop {
+  transform:
+    perspective(1500px)
+    translateX(-125px)
+    rotateY(45deg)
+    scale(.9);
+}
+
+.perspective textarea {
+  transform:
+    perspective(1500px)
+    translateX(155px)
+    rotateY(45deg)
+    scale(1.1);
+}
+
+textarea:focus, button:focus {
+  outline: none;
+  box-shadow: 0 0 0 2px #c6aada;
+}
+
+
+</style>
+</head>
+
+
+<body>
+
+ <div class="container">
+      <div class="header">
+        <h3 class="text-muted" id='h-header'><a href="/">ZilliCast</a></h3>
+      </div>
+
+    <div class="jumbotron">
+        <h1><a onclick="window.open('/search', '_blank')" \>Comparision</a></h1>
+        <form class="form-signin" action='#'>
+        <!--label for="inputName" class="sr-only">Name</label>
+        <input type="name" id='name_box' class="form-control" placeholder="keyword" name="a"  /> 
+        <p><a href="javascript:void();"  class="btn btn-lg btn-primary btn-block" id="calculate" type=submit>Search</a></p-->
+
+      	<p input class="btn btn-lg btn-primary" id="our-button" onclick="createNewItem()">Correct</p>
+        <!--p input class="btn btn-lg btn-primary" id="del-button" onclick="deleteItem()">Delete Result</p-->
+
+
+        </form>
+    </div>
+    <p id="demo"></p>
+    <div id="frame">
+      <div class="row" id="row1">
+      <div class="col-sm-6 col-md-auto">
+      	<!--div class='drop-down' id='drop-down1'>
+          <label>Comp:</lable>
+      		<select class='select-list' id= "select-list1" onchange="selectList(1)"></select>
+          <label>VDC:</label>
+          <select class='select-list' id= "select-list2" onchange="selectList1(1)">
+      		</select>
+
+        </div-->
+        <div>
+        <label>Original:</lable>
+        </div>
+      	<div id="text-field1">
+      		<textarea rows="20" cols="65" font-size:12px class="text_outputs" id="text_output1"></textarea>
+      	</div>
+      </div>
+
+      <div class="col-sm-6 col-md-auto">
+        <div>
+        <label>Corrected:</lable>
+        </div>
+
+
+          <div id="text-field2">
+            <textarea rows="20" cols="65" font-size:12px class="text_outputs" id="text_output2"></textarea>
+          </div>
+
+      </div>
+
+     </div> <!--row-->
+     <p class="lead" id='lead1'></p>
+  </div> <!--frame-->
+
+
+
+</div>
+	<!--script src="../static/js/main.js"></script-->
+
+  <script type=text/javascript>
+    var counter = 1
+    $(function () {
+      $('a#calculate').bind('click', function() {
+        $.getJSON('/_add_numbers', {
+          a: $('input[name="a"]').val(),
+          b: $('input[name="b"]').val()
+        }, function(data) {
+          element = document.getElementById('h-header');
+          element.innerHTML = 'ZilliCast'
+          last = document.getElementsByClassName('text_outputs').length
+          textoutput='text_output'+last;
+          //console.log(textoutput)
+          element = document.getElementById(textoutput);
+          //console.log(element)
+          //textboxname = 'text_outputs'+count
+          element.value = document.getElementById('name_box').value + ':\n'
+          element.value  += data.result
+          //console.log(element.value)
+
+        });
+        return false;
+      });
+    });
+    </script>
+  <script>
+    //var mydata= '{{ data|tojson }}';
+    var mydata = "";
+    var mycolls = '{{colls|tojson}}'
+
+
+    function toObj(vars) {
+        return vars
+    }
+
+    objdata = toObj({{data|tojson}});
+
+    comps = new Array();
+    comps.push('all');
+    vdc = new Array();
+    //vdc.push('all');
+
+    comp = Object.keys(objdata);
+    console.log(151, comp)
+    for (i=0; i <comp.length; i++ ) { 
+      comps.push(comp[i]);
+      //console.log(objdata[comp[i]]);
+      
+      vdcs = Object.keys(objdata[comp[i]])
+      console.log(157, vdcs)
+      
+      //mydata += "[" + comp[i] +"]\n"; 
+      mydata += comp[i] +": \n";   
+      vdc[i] = new Array ();
+      vdc[i].push('all');
+      for (j=0; j <vdcs.length; j++ ) { 
+        vdc[i].push(vdcs[j]);
+        mydata += objdata[comp[i]][vdcs[j]] ;
+      //console.log(objdata[comp[i]]);
+      }
+    }
+
+    console.log(164, mydata)
+    
+
+    html_str='';
+    for (i=0; i <comps.length; i++ ) {
+      html_str += "<option value=\""+comps[i]+"\">"+comps[i]+"</option>";
+    }
+
+
+    html_str_vdc='';
+    for (i=0; i <vdc[0].length; i++ ) {
+      html_str_vdc += "<option value=\""+vdc[0][i]+"\">"+vdc[0][i]+"</option>";
+    }
+    //console.log(html_str);
+    document.getElementById('text_output1').value = mydata;
+    //document.getElementById('select-list1').innerHTML = html_str;
+    //document.getElementById('select-list2').innerHTML = html_str_vdc;
+
+    var $container = $('.container');
+    var $backdrop = $('.backdrop');
+    var $highlights = $('.highlights');
+    var $textarea = $('textarea');
+
+String.prototype.replaceAll = function(search, replacement) {
+    var target = this;
+    return target.replace(new RegExp(search, 'g'), replacement);
+};
+
+    var countBox =1;
+    var boxName = '';
+
+    var dropDown = document.getElementById("drop-down");
+    var textField = document.getElementById("text-field");
+    //console.log('dropdown is ', dropDown, 'textField is ', textField);
+    function createNewItem(){
+      mydata = document.getElementById('text_output1').value
+
+      var mydata2 = mydata.replaceAll('Stephen curry', 'Stephen Curry');
+      mydata2 = mydata2.replaceAll('lebron James', 'LeBron James')
+      mydata2 = mydata2.replaceAll('clay comes', 'Klay Thompson')
+      mydata2 = mydata2.replaceAll('clay Thompson', 'Klay Thompson')
+      document.getElementById('text_output2').value = mydata2;
+
+      $('textarea').highlightTextarea({
+      words: ['Klay Thompson', 'LeBron James', 'Stephen Curry']
+      });
+
+
+    }
+
+    function deleteItem() {
+
+      last = document.getElementsByClassName('text_outputs').length
+      textoutput='text_output'+last;
+      console.log("textoutput", textoutput);
+      //element = document.getElementById(textoutput);
+      if(countBox>0) {
+        boxName="text_output"+last;
+        document.getElementById(boxName).remove();
+        selectName="select-list"+(last*2);
+        //console.log('selectName', selectName)
+        document.getElementById(selectName).remove();
+        selectName="select-list"+(last*2-1);
+        document.getElementById(selectName).remove();
+        dropdownName="drop-down"+countBox;
+        document.getElementById(dropdownName).remove();
+        if (countBox %2 ==1) {
+            exitRowname = "row"+(Math.floor(countBox/2+1));
+            document.getElementById(exitRowname).remove();
+            exitleadName = "lead" + Math.floor(countBox/2+1);
+            document.getElementById(exitleadName).remove();
+        }
+        countBox--;
+      }
+    }
+  </script>
+
+</body>
+</html>

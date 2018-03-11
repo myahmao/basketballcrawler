@@ -142,7 +142,8 @@ def result():
     _name = _name.title()
     print _name
 
-    global dbName
+    radio_value = request.form['radio']
+    print 146, radio_value
 
     '''client = MongoClient('34.212.20.96:27017')
     db = client['nba_player']
@@ -156,29 +157,43 @@ def result():
   
     datadict = {}
 
-
-   	#data = collection.find({'$text':{'$search': _name}}, {'_id':0})
-    
-    #data = collection.find({'$text':{'$search': _name}}, {'_id':0})
-    data = collection.find_one({'name': _name}, {'_id':0})
-    col = 'Player'
- 
     result_temp = ''
     datadict[_name] = ''
-    for item in data:
-            pprint(item)
-            
-            if item == 'positions':
-                result_temp += str(item) + ':'
-                for value in data[item]:
-                    result_temp += str(value) + ','
-                result_temp += '\n'
-            else :
-                result_temp += str(item) + ' : ' + str(data[item])+'\n'
+   	#data = collection.find({'$text':{'$search': _name}}, {'_id':0})
+    
+    if radio_value == 'player':
+        data = collection.find_one({'name': _name}, {'_id':0})
 
+
+        if data is not None:
+
+            for item in data:
+                    pprint(item)
+                    
+                    if item == 'positions':
+                        result_temp += str(item) + ':'
+                        for value in data[item]:
+                            result_temp += str(value) + ','
+                        result_temp += '\n'
+                    else :
+                        result_temp += str(item) + ' : ' + str(data[item])+'\n'
+        else:
+            result_temp = 'Not found!'
+
+    if radio_value == 'team':
+        cursor = collection.find({'team': _name}, {'_id':0})
+
+        #result_temp = ' has following players:\n'
+
+        for data in cursor:
+            #print 218, data
+            result_temp += 'Jersey ' + str(data['jersey'])+ ': '+str(data['name'])+'\n'
+        if result_temp =='':
+            result_temp = 'Not found!'
+    col = 'Player'
 
     datadict[_name]= result_temp
-    print 244,datadict
+    print 196,datadict
 
     #if len(datadict[col]) == 0 :
     #    del datadict[col]
@@ -189,68 +204,15 @@ def result():
     #print 256, 'send coll is ', colls
     return render_template('result.html', data=datadict, colls=col)
 
-@app.route('/team/', methods=['GET', 'POST'])
-def team():
-
-    _name = request.form['searchKeyword']
-    _name = _name.title()
-    print _name 
-
-
-    '''client = MongoClient('34.212.20.96:27017')
-    db = client['nba_player']
-    collection = client['Player']
-    '''
-    client = MongoClient('34.212.20.96', 27017)
-    coll_name = 'Player'
-    db = client['nba_player']
-    #db.authenticate(user[1], user[2])
-    collection = db[coll_name]
-  
-    datadict = {}
-
-
-    #data = collection.find({'$text':{'$search': _name}}, {'_id':0})
-    
-    #data = collection.find({'$text':{'$search': _name}}, {'_id':0})
-    result_temp = ''
-    datadict[_name] = ''
-
-    cursor = collection.find({'team': _name}, {'_id':0})
-
-    for data in cursor:
-        print 218, data
-        result_temp += 'Jersey ' + str(data['jersey'])+ ': '+str(data['name'])+'\n'
-    col = 'Player'
-
-
-    '''for item in data:
-            pprint(item)
-            
-            if item == 'positions':
-                result_temp += str(item) + ':'
-                for value in data[item]:
-                    result_temp += str(value) + ','
-                result_temp += '\n'
-            else :
-                result_temp += str(item) + ':' + str(data[item])+'\n'
-    '''
-    datadict[_name]= result_temp
-    print 244,datadict
-
-
-    return render_template('team.html', data=datadict, colls=col)
 
 @app.route('/health/', methods=['GET', 'POST'])
 def health():
     print request.method
 
-    taskBroker = TaskBroker(False)
-    dataresult = 'hi lanchao! \nhow are you doing!'
+
     reportStr=''
     resultStr = ''
     global dbName
-    resultList=taskBroker.troubleShoot(dbName, ['vpc'], ['health check'], None, 1, [])
     if resultList is None or len(resultList) == 0:
         print "No results are found"
         return
@@ -290,51 +252,21 @@ def health():
     print reportStr
 
 
-    return render_template('health.html', data=reportStr)
+    return render_template('health.html', data='reportStr')
 
+@app.route('/correct/', methods=['GET', 'POST'])
+def correct():
+    print request.method
+
+    datadict = {}
+    #datadict[_name] = ''
+    datadict['Text']= "Do you know who clay comes is of course and though he he is with the Golden State Warriors I laxity Stephen curry Kevin Durant and so forth there's really gave lebron James a real headache I cannot wait to see their meet at next NBA championship game."
+    col = 'Player'
+    return render_template("correct.html",data = datadict, colls=col)
 # Route that will process the AJAX request, sum up two
 # integer numbers (defaulted to zero) and return the
 # result as a proper JSON response (Content-Type, etc.)
-'''@app.route('/_add_numbers')
-def add_numbers():
-    _name = request.args.get('a', 0)
-    _database = request.args.get('b', 0)
-    if _database is None:
-       _database = 'T10066'
 
-    client = MongoClient('172.23.149.111:27017')
-    db = client['T10181']
-    collection = db['vpc']
-    cols = client['T10181'].collection_names()
-    colls=[]
-    for col in cols:
-        print 'collection', col
-        colls.append(col)
-    print colls
-
-    isCmd = False
-    tagList = []
-    parameter = None
-    isCmd, tagList, parameter = cmdConversion(_name)
-    #print tagList
-    if isCmd is False:
-        data = collection.find({'$text':{'$search': _name}}, {'_id':0})
-    else:
-        if parameter is None:
-            data = collection.find({'$and':[{'command':{'$in':tagList}}, {'log-type':'human-readable'}]}, {'_id':0})
-        else:
-            data = collection.find({'$and':[{'command':{'$in':tagList}}, {'vPC number ':parameter.strip()}, {'log-type':'human-readable'}]}, {'_id':0})
-        
-    result_temp = ''
-    for item in data:
-        #pprint(item)
-        for key in item:
-            result_temp += str(key) +':'+ str(item[key]) + ' \n' 
-        result_temp += '\n'
-    #display = Displayer('SUMMARY',  data)
-    #result_temp = display.JSON_print()
-    print result_temp
-    return jsonify(result=result_temp)'''
 
 def allowed_file(filename):
     return '.' in filename and \

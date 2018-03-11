@@ -53,23 +53,19 @@
             <form class="form-signin" name='submit_form' method="post" action="{{ url_for('result') }}">
             <label for="inputName" class="sr-only">Name</label>
             <input type="name" id='name_box' class="form-control" placeholder="Player Name" name="searchKeyword"  /> 
-
+            <input type="radio" name="radio" value="player" checked>By name</input>
+            <input type="radio" name="radio" value="team">By team</input>
             <p class="lead"></p>
-            <p><input class="btn btn-lg btn-primary" role="button" type="submit" value="Search Player" /></p>
+            <p><input class="btn btn-lg btn-primary" role="button" type="submit" value="Search" /></p>
             <!--p><a href="javascript:void();"  class="btn btn-lg btn-primary" id="calculate" type=submit>Search</a></p-->
             </form>
 
-            <form class="form-signin" name='submit_form' method="post" action="{{ url_for('team') }}">
-            <label for="inputName" class="sr-only">Name</label>
-            <input type="name" id='name_box' class="form-control" placeholder="Team Name" name="searchKeyword"  /> 
-            <p class="lead"></p>
-            <p><input class="btn btn-lg btn-primary" role="button" type="submit" value="Search Team" /></p>
-            <!--p><a href="javascript:void();"  class="btn btn-lg btn-primary" id="calculate" type=submit>Search</a></p-->
-            </form>
 
-            <form class="form-signin" name='submit_form' method="post" action="{{ url_for('health') }}">
-            <p><input class="btn btn-lg btn-primary" role="button" type="submit" name="health" value="Correction" /></p>
-            <!--p><a href="javascript:void();"  class="btn btn-lg btn-primary" id="calculate" type=submit>Search</a></p-->
+
+            <form class="form-signin" name='submit_form' method="get" action="{{ url_for('correct') }}">
+            <p><input class="btn btn-lg btn-primary" role="button" type="submit" name="correct" value="Correction" /></p>
+
+
             </form>
 
         </div>
