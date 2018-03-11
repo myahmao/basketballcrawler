@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+ 
+<head>
+    <title>NXOOOS</title>
+ 
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+
+    <script src="http://requirejs.org/docs/release/2.2.0/minified/require.js"></script>
+    <link href="//netdna.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+          rel="stylesheet">
+    <!--link href="http://getbootstrap.com/examples/jumbotron-narrow/jumbotron-narrow.css" rel="stylesheet"-->
+    <link href="../static/css/jumbotron-narrow.css" rel="stylesheet">
+    <link href="../static/css/signup.css" rel="stylesheet">
+
+ </head>
+
+<script>
+function checkSessionID(id)
+{
+  textname="sessionID"+id;
+  session = document.getElementById(textname).value;
+  console.log(session);
+  //window.alert(session);
+  if (!session.startsWith("T") && !session.startsWith("CSC"))
+  {
+    alert("Not a valid Session or Bug ID! \nPlease enter again:");
+    //document.getElementById('submit_form').action="/";
+    return false;
+  } 
+
+}
+
+function returnCheck(e, id) {
+    //console.log(e.keyCode);
+    textname="sessionID"+id;
+    //console.log(37,textname);
+    if (e.keyCode == 13) {
+      session = document.getElementById(textname).value;
+      console.log(40, session);
+      //window.alert(session);
+      if (!session.startsWith("T") && !session.startsWith("CSC"))
+      {
+        alert("Not a valid Session or Bug ID! \nPlease enter again.");
+        //document.getElementById('submit_form').action="/";
+        return false;
+      } 
+    }
+}
+
+</script>
+<body>
+ 
+    <div class="container">
+        <div class="header">
+            <h3 id='h-header' class="text-muted"><a href="/">NXOOOOS</a></h3>
+        </div>
+ 
+        <div class="jumbotron">
+            <h1><a href="/">NXOOOOS</a></h1>
+            <!--div class="row" id="row1">
+              <div class="col-lg-12 col-md-auto"-->
+            <form id='new_form' method="post" class="form-signin" enctype="multipart/form-data" action="{{ url_for('search') }}">
+              <div align="center">
+              <h3>New Session : upload a tech support file:</h3>
+              <input type="name" id='sessionID1' class="form-control" placeholder="bugID(optional)" name="sessionID1" onkeypress="return returnCheck(event, 1)" >
+              <label>Component:</label>
+              <input type="checkbox" name="component" value="vpc">vPC
+              <input type="checkbox" name="component" value="ethpm">ethpm
+              <input type="checkbox" name="component" value="vlan_mgr">vlan-mgr
+              <input type="checkbox" name="component" value="private_vlan">pvlan
+              <input type="checkbox" name="component" value="interface_vlan">svi
+              <input type="checkbox" name="component" value="lacp">lacp
+              <input type="checkbox" name="component" value="eth_port_channel">ether-port-channel
+              <input class="btn btn-lg" type="file" name="file">
+              <h3>Existing session/bug ID:</h3>
+              <input type="name" id='sessionID2' class="form-control" placeholder="sessionID" name="sessionID2" onkeypress="return returnCheck(event, 2)" />
+              <hr>
+              <input class="btn btn-lg btn-primary" type="submit" value="Next">
+              <!--input class="btn btn-lg btn-primary" role="button" type="submit" value="open" onclick="return checkSessionID(2)" /-->
+              </div>
+
+              <!--div align="center">
+                <input type="name" id='sessionID2' class="form-control" placeholder="sessionID" name="sessionID2" onkeypress="return returnCheck(event, 2)" />
+
+               <p class="lead"></p>
+               <p><input class="btn btn-lg btn-primary" role="button" type="submit" value="open" onclick="return checkSessionID(2)" /></p>
+              </div-->
+            </form>
+
+            <h3><font color="green">To start a new session, upload a tech-support and select a bugID(optional).
+            To retrieve an exiting session, please assign the session/bug ID.</font></h3>
+
+             <!--/div>
+           </div-->
+        </div>
+
+
+       {% include 'footer.html' %}
+ 
+    </div>
+</body>
+ 
+</html>

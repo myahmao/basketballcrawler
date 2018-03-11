@@ -26,14 +26,13 @@ import basketballCrawler as bc
         self.gamelog_url_list = []
 '''
 
-client = MongoClient('34.212.20.96', 27017)
+client = MongoClient('localhost', 27017)
 coll_name = 'Player'
 db = client['nba_player']
 #db.authenticate(user[1], user[2])
 collection = db[coll_name]
 
 players = bc.loadPlayerDictionary("player.json")
-#print players['LeBron James'].overview_url
 i=1
 
 for key in players.keys():
@@ -42,6 +41,7 @@ for key in players.keys():
 	player_name =  str(key.decode('utf-8')).title()
 	height = players[key].height
 	weight = players[key].weight
+	overview_url = players[key].overview_url
 
 	name = str(key.decode('utf-8')).split(' ')
 	firstname = name[0]
@@ -60,7 +60,9 @@ for key in players.keys():
 	print i, firstname,lastname
 	i+=1
 
-	'''userRecord = collection.find_one({'lastname': lastname, 'firstname': firstname})
+
+	userRecord = collection.find_one({'lastname': lastname, 'firstname': firstname})
+
 	if not userRecord:
 	
 		collection.insert({'firstname'    : firstname,
@@ -69,29 +71,32 @@ for key in players.keys():
                            'height'   : height,
                            'weight'   : weight,
                            'positions' : positions,
+                           'overview_url': overview_url,
                           })
-    '''
+
+    
+
 	#print len(players.keys())
-	if i>113:
-		try:
-			get_player = player.get_player(firstname, last_name=lastname)
-			#print get_player
+	'''
+	try:
+		get_player = player.get_player(firstname, last_name=lastname)
+		#print get_player
 
-			player_id = get_player.values[0]
-			#print player_id
-			player_summary = player.PlayerSummary(player_id)
-			team_name = player_summary.info()["TEAM_CITY"][0] +' '+ player_summary.info()["TEAM_NAME"][0]
+		player_id = get_player.values[0]
+		#print player_id
+		player_summary = player.PlayerSummary(player_id)
+		team_name = player_summary.info()["TEAM_CITY"][0] +' '+ player_summary.info()["TEAM_NAME"][0]
 
-			print firstname, lastname+':', team_name
-			birthday = player_summary.info()["BIRTHDATE"][0].split('T')[0]
-			from_year = player_summary.info()["FROM_YEAR"][0]
-			jersey = player_summary.info()["JERSEY"][0]
-			school = player_summary.info()["SCHOOL"][0]
+		print firstname, lastname+':', team_name
+		birthday = player_summary.info()["BIRTHDATE"][0].split('T')[0]
+		from_year = player_summary.info()["FROM_YEAR"][0]
+		jersey = player_summary.info()["JERSEY"][0]
+		school = player_summary.info()["SCHOOL"][0]
 
-			userRecord = collection.find_one({'lastname': lastname, 'firstname': firstname})
-			if userRecord:
+		userRecord = collection.find_one({'lastname': lastname, 'firstname': firstname})
+		if userRecord:
 		
-				collection.update_one(
+			collection.update_one(
 	                  {'lastname': lastname, 'firstname': firstname},
 	                  {
 	                    "$set" :  {'birtdate':birthday,
@@ -101,5 +106,6 @@ for key in players.keys():
 	                              },
 	                  }
 	                )
-		except:
-			print 'player not found'
+	except:
+		print 'player not found'
+'''
