@@ -121,7 +121,7 @@ def search():
         dbName = 'T10341'
 
     if dbName != '':
-        client = MongoClient('34.212.20.96',27017)
+        client = MongoClient('localhost',27017)
         db = client['nba_player']
         collection = db['Player']
         data = collection.find()
@@ -149,7 +149,7 @@ def result():
     db = client['nba_player']
     collection = client['Player']
     '''
-    client = MongoClient('34.212.20.96', 27017)
+    client = MongoClient('localhost', 27017)
     coll_name = 'Player'
     db = client['nba_player']
     #db.authenticate(user[1], user[2])
@@ -168,7 +168,7 @@ def result():
         if data is not None:
 
             for item in data:
-                    pprint(item)
+                    #pprint(item)
                     
                     if item == 'positions':
                         result_temp += str(item) + ':'
