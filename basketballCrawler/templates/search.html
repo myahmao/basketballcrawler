@@ -52,9 +52,11 @@
             <h1><a href="/">Zillicast</a></h1>
             <form class="form-signin" name='submit_form' method="post" action="{{ url_for('result') }}">
             <label for="inputName" class="sr-only">Name</label>
-            <input type="name" id='name_box' class="form-control" placeholder="Player Name" name="searchKeyword"  /> 
+            <input type="name" id='name_box' class="form-control" placeholder="Player/Team Name" name="searchKeyword"  />
             <input type="radio" name="radio" value="player" checked>By name</input>
             <input type="radio" name="radio" value="team">By team</input>
+            <input type="radio" name="radio" value="all">Ambiguous</input>
+
             <p class="lead"></p>
             <p><input class="btn btn-lg btn-primary" role="button" type="submit" value="Search" /></p>
             <!--p><a href="javascript:void();"  class="btn btn-lg btn-primary" id="calculate" type=submit>Search</a></p-->

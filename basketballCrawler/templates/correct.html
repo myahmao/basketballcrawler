@@ -68,7 +68,7 @@
 .container{}
 
 .backdrop, textarea {
-  width: 450px;
+  width: 380px;
   height: 280px;
 }
 
@@ -324,8 +324,10 @@ String.prototype.replaceAll = function(search, replacement) {
 
       var mydata2 = mydata.replaceAll('Stephen curry', 'Stephen Curry');
       mydata2 = mydata2.replaceAll('lebron James', 'LeBron James')
+      mydata2 = mydata2.replaceAll('lebron james', 'LeBron James')
       mydata2 = mydata2.replaceAll('clay comes', 'Klay Thompson')
       mydata2 = mydata2.replaceAll('clay Thompson', 'Klay Thompson')
+      mydata2 = mydata2.replaceAll('stephen curry', 'Stephen Curry')
       document.getElementById('text_output2').value = mydata2;
 
       $('textarea').highlightTextarea({

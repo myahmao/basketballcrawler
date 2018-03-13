@@ -169,14 +169,20 @@ def result():
 
             for item in data:
                     #pprint(item)
-                    
+                    if item == 'overview_url':
+                        link = str(data[item])
                     if item == 'positions':
                         result_temp += str(item) + ':'
                         for value in data[item]:
                             result_temp += str(value) + ','
                         result_temp += '\n'
-                    else :
+                    else:
                         result_temp += str(item) + ' : ' + str(data[item])+'\n'
+            col = 'Player'
+
+            datadict[_name]= result_temp
+            return render_template('result.html', data=datadict, colls=col, link=link)
+
         else:
             result_temp = 'Not found!'
 
@@ -190,6 +196,21 @@ def result():
             result_temp += 'Jersey ' + str(data['jersey'])+ ': '+str(data['name'])+'\n'
         if result_temp =='':
             result_temp = 'Not found!'
+
+    if radio_value == 'all':
+        cursor = collection.find({'$text':{'$search': _name}}, {'_id':0})
+
+        #result_temp = ' has following players:\n'
+
+        for data in cursor:
+            #print 200, data
+            if 'team' in data:
+                result_temp += str(data['team'])+ ': '+str(data['name'])+'\n'
+            else:
+                result_temp += str(data['name'])+'\n'
+        if result_temp =='':
+            result_temp = 'Not found!'
+
     col = 'Player'
 
     datadict[_name]= result_temp
@@ -198,10 +219,7 @@ def result():
     #if len(datadict[col]) == 0 :
     #    del datadict[col]
                 
-        
-    #pprint(datadict[col])
-    #pprint (datadict)
-    #print 256, 'send coll is ', colls
+
     return render_template('result.html', data=datadict, colls=col)
 
 
@@ -282,6 +300,7 @@ if __name__ == '__main__':
     app.run(
         host="0.0.0.0",
         port=5000,
-        debug=True
+        debug=True,
+        threaded=True
     )
 
