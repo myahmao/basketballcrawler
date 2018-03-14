@@ -45,17 +45,18 @@
  
     <div class="container">
         <div class="header">
-            <h3 id='h-header' class="text-muted"><a href="/">Zillicast</a></h3>
+            <h3 id='h-header' class="text-muted"><a href="/">ZilliCast</a></h3>
         </div>
  
         <div class="jumbotron">
-            <h1><a href="/">Zillicast</a></h1>
+            <h1><a href="/"><img src="../static/img/logo.jpg" alt="Zillicast" width="300"></a></h1>
             <form class="form-signin" name='submit_form' method="post" action="{{ url_for('result') }}">
             <label for="inputName" class="sr-only">Name</label>
             <input type="name" id='name_box' class="form-control" placeholder="Player/Team Name" name="searchKeyword"  />
             <input type="radio" name="radio" value="player" checked>By name</input>
             <input type="radio" name="radio" value="team">By team</input>
             <input type="radio" name="radio" value="all">Ambiguous</input>
+            <input type="radio" name="radio" value="list">Listing</input>
 
             <p class="lead"></p>
             <p><input class="btn btn-lg btn-primary" role="button" type="submit" value="Search" /></p>
@@ -67,7 +68,11 @@
             <form class="form-signin" name='submit_form' method="get" action="{{ url_for('correct') }}">
             <p><input class="btn btn-lg btn-primary" role="button" type="submit" name="correct" value="Correction" /></p>
 
+            <p></p>
 
+            <p><a href="https://speech-to-text-demo.ng.bluemix.net/" target=_blank>
+              <img src="../static/img/mic.png" alt="mic" width="50" height="50">
+            </a></p>
             </form>
 
         </div>

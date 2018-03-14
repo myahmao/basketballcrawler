@@ -91,6 +91,8 @@
         </div-->
         <label font-size:16px id='label1'></label>
         <a font-size:16px id='a1' href=""></a>
+        <a href='../static/media/curry.mp3' id="curry" ><img src="../static/img/mp3.jpeg" width="20"></a>
+
       	<div id="text-field1">
           <textarea readonly rows="20" cols="65" font-size:16px class="text_outputs" id="text_output1"></textarea>
           <!--  {% for col in colls %}
@@ -160,6 +162,9 @@
       hreflink=document.getElementById('a1');
       hreflink.setAttribute('href',link);
       hreflink.innerHTML = comp+':';
+    }
+    if (comp !="Stephen Curry") {
+      document.getElementById('curry').remove();
     }
     for (i=0; i <comp.length; i++ ) { 
       comps.push(comp[i]);

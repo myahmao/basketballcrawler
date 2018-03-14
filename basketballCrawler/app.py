@@ -139,8 +139,8 @@ def search():
 def result():
 
     _name = request.form['searchKeyword']
+    print 143, _name
     _name = _name.title()
-    print _name
 
     radio_value = request.form['radio']
     print 146, radio_value
@@ -158,7 +158,7 @@ def result():
     datadict = {}
 
     result_temp = ''
-    datadict[_name] = ''
+
    	#data = collection.find({'$text':{'$search': _name}}, {'_id':0})
     
     if radio_value == 'player':
@@ -210,11 +210,26 @@ def result():
                 result_temp += str(data['name'])+'\n'
         if result_temp =='':
             result_temp = 'Not found!'
+    if radio_value == 'list':
+        if _name == 'Name' or _name == 'Team' or _name=='Player' :
+            if _name == 'Player':
+                _name = 'Name'
+            data =collection.distinct(_name.lower())
+            #print 216, data
+            dlist = []
+            for item in data:
+                if item != ' ':
+                    dlist.append(str(item))
+            dlist = sorted(dlist)
+            for item in dlist:
+                result_temp += item + '\n'
+        else:
+            result_temp = 'Not Found!'
 
     col = 'Player'
 
     datadict[_name]= result_temp
-    print 196,datadict
+    #print 224,datadict
 
     #if len(datadict[col]) == 0 :
     #    del datadict[col]
