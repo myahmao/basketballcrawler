@@ -170,7 +170,7 @@ textarea:focus, button:focus {
       </div>
 
     <div class="jumbotron">
-        <h1><a onclick="window.open('/search', '_blank')" \>Comparision</a></h1>
+        <h1><a onclick="window.open('/', '_blank')" \>Comparision</a></h1>
         <form class="form-signin" action='#'>
         <!--label for="inputName" class="sr-only">Name</label>
         <input type="name" id='name_box' class="form-control" placeholder="keyword" name="a"  /> 
@@ -328,6 +328,8 @@ String.prototype.replaceAll = function(search, replacement) {
       mydata2 = mydata2.replaceAll('clay comes', 'Klay Thompson')
       mydata2 = mydata2.replaceAll('clay Thompson', 'Klay Thompson')
       mydata2 = mydata2.replaceAll('stephen curry', 'Stephen Curry')
+      mydata2 = mydata2.replaceAll('steph and curry', 'Stephen Curry')
+      mydata2 = mydata2.replaceAll('steph curry', 'Stephen Curry')
       document.getElementById('text_output2').value = mydata2;
 
       $('textarea').highlightTextarea({
