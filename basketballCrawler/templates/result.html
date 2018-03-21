@@ -65,7 +65,7 @@
       </div>
 
     <div class="jumbotron">
-        <h1><a onclick="window.open('/search', '_blank')" \>Result</a></h1>
+        <h1><a href="/">Result</a></h1>
         <form class="form-signin" action='#'>
         <!--label for="inputName" class="sr-only">Name</label>
         <input type="name" id='name_box' class="form-control" placeholder="keyword" name="a"  /> 
@@ -89,8 +89,12 @@
       		</select>
 
         </div-->
+        <label font-size:16px id='label1'></label>
+        <a font-size:16px id='a1' href=""></a>
+        <a href='../static/media/curry.mp3' id="curry" ><img src="../static/img/mp3.jpeg" width="20"></a>
+
       	<div id="text-field1">
-      		<textarea readonly rows="20" cols="65" font-size:12px class="text_outputs" id="text_output1"></textarea>
+          <textarea readonly rows="20" cols="65" font-size:16px class="text_outputs" id="text_output1"></textarea>
           <!--  {% for col in colls %}
             {% if col != 'all' and col != 'syslog' %}
             {{col}}: {{ data[col] }}
@@ -147,33 +151,37 @@
 
     comps = new Array();
     comps.push('all');
-    vdc = new Array();
-    //vdc.push('all');
+    link = "{{link}}";
+    console.log(151, link);
 
     comp = Object.keys(objdata);
     console.log(151, comp)
+
+    if (link !="") {
+      document.getElementById('label1').remove();
+      hreflink=document.getElementById('a1');
+      hreflink.setAttribute('href',link);
+      hreflink.innerHTML = comp+':';
+    }
+    if (comp !="Stephen Curry") {
+      document.getElementById('curry').remove();
+    }
     for (i=0; i <comp.length; i++ ) { 
       comps.push(comp[i]);
       //console.log(objdata[comp[i]]);
-      
-      vdcs = Object.keys(objdata[comp[i]])
-      console.log(157, vdcs)
-      
-      //mydata += "[" + comp[i] +"]\n"; 
-      mydata += comp[i] +": \n";   
-      vdc[i] = new Array ();
-      vdc[i].push('all');
-      for (j=0; j <vdcs.length; j++ ) { 
-        vdc[i].push(vdcs[j]);
-        mydata += objdata[comp[i]][vdcs[j]] ;
-      //console.log(objdata[comp[i]]);
-      }
+
+      //mydata += "[" + comp[i] +"]\n";
+      //mydata += comp[i] +": \n";
+
+      mydata += objdata[comp[i]];
+      console.log(objdata[comp[i]]);
+
     }
 
-    console.log(164, vdc)
+    //console.log(164, vdc)
     
 
-    html_str='';
+    /*html_str='';
     for (i=0; i <comps.length; i++ ) {
       html_str += "<option value=\""+comps[i]+"\">"+comps[i]+"</option>";
     }
@@ -182,11 +190,14 @@
     html_str_vdc='';
     for (i=0; i <vdc[0].length; i++ ) {
       html_str_vdc += "<option value=\""+vdc[0][i]+"\">"+vdc[0][i]+"</option>";
-    }
+    }*/
     //console.log(html_str);
+    if (link =="") {
+      document.getElementById('label1').textContent = comp+":";
+    }
     document.getElementById('text_output1').value = mydata;
-    document.getElementById('select-list1').innerHTML = html_str;
-    document.getElementById('select-list2').innerHTML = html_str_vdc;
+    //document.getElementById('select-list1').innerHTML = html_str;
+    //document.getElementById('select-list2').innerHTML = html_str_vdc;
 
     function selectList(count) {
         selectName = "select-list"+(count*2-1);

@@ -68,7 +68,7 @@
 .container{}
 
 .backdrop, textarea {
-  width: 450px;
+  width: 380px;
   height: 280px;
 }
 
@@ -170,7 +170,7 @@ textarea:focus, button:focus {
       </div>
 
     <div class="jumbotron">
-        <h1><a onclick="window.open('/search', '_blank')" \>Comparision</a></h1>
+        <h1><a onclick="window.open('/', '_blank')" \>Comparision</a></h1>
         <form class="form-signin" action='#'>
         <!--label for="inputName" class="sr-only">Name</label>
         <input type="name" id='name_box' class="form-control" placeholder="keyword" name="a"  /> 
@@ -324,8 +324,12 @@ String.prototype.replaceAll = function(search, replacement) {
 
       var mydata2 = mydata.replaceAll('Stephen curry', 'Stephen Curry');
       mydata2 = mydata2.replaceAll('lebron James', 'LeBron James')
+      mydata2 = mydata2.replaceAll('lebron james', 'LeBron James')
       mydata2 = mydata2.replaceAll('clay comes', 'Klay Thompson')
       mydata2 = mydata2.replaceAll('clay Thompson', 'Klay Thompson')
+      mydata2 = mydata2.replaceAll('stephen curry', 'Stephen Curry')
+      mydata2 = mydata2.replaceAll('steph and curry', 'Stephen Curry')
+      mydata2 = mydata2.replaceAll('steph curry', 'Stephen Curry')
       document.getElementById('text_output2').value = mydata2;
 
       $('textarea').highlightTextarea({
@@ -361,6 +365,22 @@ String.prototype.replaceAll = function(search, replacement) {
       }
     }
   </script>
+
+<!-- Start of StatCounter Code for Default Guide -->
+<script type="text/javascript">
+var sc_project=11653521; 
+var sc_invisible=1; 
+var sc_security="1ccc78e4"; 
+</script>
+<script type="text/javascript"
+src="https://www.statcounter.com/counter/counter.js"
+async></script>
+<noscript><div class="statcounter"><a title="Web Analytics"
+href="http://statcounter.com/" target="_blank"><img
+class="statcounter"
+src="//c.statcounter.com/11653521/0/1ccc78e4/1/" alt="Web
+Analytics"></a></div></noscript>
+<!-- End of StatCounter Code for Default Guide -->
 
 </body>
 </html>

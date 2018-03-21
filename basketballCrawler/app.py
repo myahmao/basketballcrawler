@@ -27,17 +27,43 @@ app.secret_key = "super secret key"
 
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
-#CmdList = {'show system internal vpcm info peer-link':['show system internal vpcm info peer-link'],
-#           'show system internal vpcm info vpc':['show system internal vpcm info vpc'],
-#           'show system internal vpcm info global':['show system internal vpcm info global']
-#           }
+import re
+from collections import Counter
 
+def words(text): return re.findall(r'\w+', text.lower())
 
+WORDS = Counter(words(open('little.txt').read()))
 
+def P(word, N=sum(WORDS.values())): 
+    "Probability of `word`."
+    return WORDS[word] / N
 
-# This route will show a form to perform an AJAX request
-# jQuery is loaded to execute the request and update the
-# value of the operation
+def correction(word): 
+    "Most probable spelling correction for word."
+    return max(candidates(word), key=P)
+
+def candidates(word): 
+    "Generate possible spelling corrections for word."
+    return (known([word]) or known(edits1(word)) or known(edits2(word)) or [word])
+
+def known(words): 
+    "The subset of `words` that appear in the dictionary of WORDS."
+    return set(w for w in words if w in WORDS)
+
+def edits1(word):
+    "All edits that are one edit away from `word`."
+    letters    = 'abcdefghijklmnopqrstuvwxyz'
+    splits     = [(word[:i], word[i:])    for i in range(len(word) + 1)]
+    deletes    = [L + R[1:]               for L, R in splits if R]
+    transposes = [L + R[1] + R[0] + R[2:] for L, R in splits if len(R)>1]
+    replaces   = [L + c + R[1:]           for L, R in splits if R for c in letters]
+    inserts    = [L + c + R               for L, R in splits for c in letters]
+    return set(deletes + transposes + replaces + inserts)
+
+def edits2(word): 
+    "All edits that are two edits away from `word`."
+    return (e2 for e1 in edits1(word) for e2 in edits1(e1))
+
 @app.route('/search/', methods=['GET', 'POST'])
 def search():
     print request.method
@@ -121,7 +147,7 @@ def search():
         dbName = 'T10341'
 
     if dbName != '':
-        client = MongoClient('34.212.20.96',27017)
+        client = MongoClient('localhost',27017)
         db = client['nba_player']
         collection = db['Player']
         data = collection.find()
@@ -139,8 +165,8 @@ def search():
 def result():
 
     _name = request.form['searchKeyword']
+    print 143, _name
     _name = _name.title()
-    print _name
 
     radio_value = request.form['radio']
     print 146, radio_value
@@ -149,7 +175,7 @@ def result():
     db = client['nba_player']
     collection = client['Player']
     '''
-    client = MongoClient('34.212.20.96', 27017)
+    client = MongoClient('localhost', 27017)
     coll_name = 'Player'
     db = client['nba_player']
     #db.authenticate(user[1], user[2])
@@ -158,7 +184,7 @@ def result():
     datadict = {}
 
     result_temp = ''
-    datadict[_name] = ''
+
    	#data = collection.find({'$text':{'$search': _name}}, {'_id':0})
     
     if radio_value == 'player':
@@ -168,15 +194,21 @@ def result():
         if data is not None:
 
             for item in data:
-                    pprint(item)
-                    
+                    #pprint(item)
+                    if item == 'overview_url':
+                        link = str(data[item])
                     if item == 'positions':
                         result_temp += str(item) + ':'
                         for value in data[item]:
                             result_temp += str(value) + ','
                         result_temp += '\n'
-                    else :
+                    else:
                         result_temp += str(item) + ' : ' + str(data[item])+'\n'
+            col = 'Player'
+
+            datadict[_name]= result_temp
+            return render_template('result.html', data=datadict, colls=col, link=link)
+
         else:
             result_temp = 'Not found!'
 
@@ -190,18 +222,51 @@ def result():
             result_temp += 'Jersey ' + str(data['jersey'])+ ': '+str(data['name'])+'\n'
         if result_temp =='':
             result_temp = 'Not found!'
+
+    if radio_value == 'all':
+        _name = _name.lower()
+        _name1 = correction(_name)
+
+        if _name1 != _name:
+            result_temp += 'Do you mean '+_name1 + ':\n'
+
+        cursor = collection.find({'$text':{'$search': _name1}}, {'_id':0})
+
+        #result_temp = ' has following players:\n'
+
+        for data in cursor:
+            #print 200, data
+            if 'team' in data:
+                result_temp += str(data['team'])+ ': '+str(data['name'])+'\n'
+            else:
+                result_temp += str(data['name'])+'\n'
+        if result_temp =='':
+            result_temp = 'Not found!'
+    if radio_value == 'list':
+        if _name == 'Name' or _name == 'Team' or _name=='Player' :
+            if _name == 'Player':
+                _name = 'Name'
+            data =collection.distinct(_name.lower())
+            #print 216, data
+            dlist = []
+            for item in data:
+                if item != ' ':
+                    dlist.append(str(item))
+            dlist = sorted(dlist)
+            for item in dlist:
+                result_temp += item + '\n'
+        else:
+            result_temp = 'Not Found!'
+
     col = 'Player'
 
     datadict[_name]= result_temp
-    print 196,datadict
+    #print 224,datadict
 
     #if len(datadict[col]) == 0 :
     #    del datadict[col]
                 
-        
-    #pprint(datadict[col])
-    #pprint (datadict)
-    #print 256, 'send coll is ', colls
+
     return render_template('result.html', data=datadict, colls=col)
 
 
@@ -282,6 +347,7 @@ if __name__ == '__main__':
     app.run(
         host="0.0.0.0",
         port=5000,
-        debug=True
+        debug=True,
+        threaded=True
     )
 
