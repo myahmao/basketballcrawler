@@ -26,15 +26,33 @@ import basketballCrawler as bc
         self.gamelog_url_list = []
 '''
 
-client = MongoClient('localhost', 27017)
+client = MongoClient('34.212.20.96', 27017)
 coll_name = 'Player'
 db = client['nba_player']
 #db.authenticate(user[1], user[2])
 collection = db[coll_name]
 
 players = bc.loadPlayerDictionary("player.json")
-i=1
 
+#print players.keys()
+file = open('little.txt','w')
+for key in players.keys():
+	print key
+	file.write(key+'\n')
+
+
+dlist=[]
+data = collection.distinct('team')
+for item in data:
+	dlist.append(str(item))
+print sorted(data)
+for item in sorted(data):
+	if item is not ' ':
+		file.write(item+'\n')
+file.close()
+
+
+'''
 for key in players.keys():
 	positions = players[key].positions
 
@@ -57,10 +75,11 @@ for key in players.keys():
 
 	firstname = firstname.title()
 	lastname = lastname.title()
-	print i, firstname,lastname
+	#print i, firstname,lastname
 	i+=1
 
 	userRecord = collection.find_one({'lastname': lastname, 'firstname': firstname})
+
 
 	if not userRecord:
 	
@@ -76,7 +95,7 @@ for key in players.keys():
     
 
 	#print len(players.keys())
-	'''
+	
 	try:
 		get_player = player.get_player(firstname, last_name=lastname)
 		#print get_player
