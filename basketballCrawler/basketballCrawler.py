@@ -28,14 +28,16 @@ def getCurrentPlayerNamesAndURLS(suppressOutput=True):
         letter_page = getSoupFromURL('http://www.basketball-reference.com/players/%s/' % (letter), suppressOutput)
 
         # we know that all the currently active players have <strong> tags, so we'll limit our names to those
-        current_names = letter_page.findAll('strong')
+        #current_names = letter_page.findAll('strong')
+        current_names =  letter_page.findAll('th')
+        print current_names
         for n in current_names:
             name_data = n.children.next()
             try:
                 names.append((name_data.contents[0], 'http://www.basketball-reference.com' + name_data.attrs['href']))
             except Exception as e:
                 pass
-        time.sleep(1) # sleeping to be kind for requests
+        time.sleep(0.1) # sleeping to be kind for requests
 
     return dict(names)
 
@@ -52,7 +54,7 @@ def buildPlayerDictionary(suppressOutput=True):
     players={}
     for name, url in playerNamesAndURLS.items():
         players[name] = Player(name,url,scrape_data=True)
-        time.sleep(1) # sleep to be kind.
+        #time.sleep(1) # sleep to be kind.
 
     logging.debug("buildPlayerDictionary complete")
 
