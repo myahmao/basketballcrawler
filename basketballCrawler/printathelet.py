@@ -4,7 +4,7 @@ from nba_py import player
 import pymongo
 from pymongo import MongoClient
 
-data = json.load(open('player.json'))
+data = json.load(open('players.json'))
 
 #pprint (data['Stephen Curry'])
 
@@ -32,7 +32,7 @@ db = client['nba_player']
 #db.authenticate(user[1], user[2])
 collection = db[coll_name]
 
-players = bc.loadPlayerDictionary("player.json")
+players = bc.loadPlayerDictionary("players.json")
 i=1
 
 for key in players.keys():
