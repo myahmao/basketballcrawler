@@ -4,7 +4,7 @@ from nba_py import player
 import pymongo
 from pymongo import MongoClient
 
-data = json.load(open('players.json'))
+#data = json.load(open('players.json'))
 
 #pprint (data['Stephen Curry'])
 
@@ -26,14 +26,33 @@ import basketballCrawler as bc
         self.gamelog_url_list = []
 '''
 
-client = MongoClient('localhost', 27017)
+client = MongoClient('34.212.20.96', 27017)
 coll_name = 'Player'
 db = client['nba_player']
 #db.authenticate(user[1], user[2])
 collection = db[coll_name]
 
+
 players = bc.loadPlayerDictionary("players.json")
 i=1
+
+#print players.keys()
+'''file = open('little.txt','w')
+for key in players.keys():
+	print key
+	file.write(key+'\n')
+
+
+dlist=[]
+data = collection.distinct('team')
+for item in data:
+	dlist.append(str(item))
+print sorted(data)
+for item in sorted(data):
+	if item is not ' ':
+		file.write(item+'\n')
+file.close()
+'''
 
 for key in players.keys():
 	positions = players[key].positions
@@ -57,10 +76,10 @@ for key in players.keys():
 
 	firstname = firstname.title()
 	lastname = lastname.title()
-	print i, firstname,lastname
+	#print i, firstname,lastname
 	i+=1
 
-	userRecord = collection.find_one({'lastname': lastname, 'firstname': firstname})
+	'''userRecord = collection.find_one({'lastname': lastname, 'firstname': firstname})
 
 	if not userRecord:
 	
@@ -73,10 +92,10 @@ for key in players.keys():
                            'overview_url': overview_url,
                           })
 
-    
+	'''
 
 	#print len(players.keys())
-	'''
+	
 	try:
 		get_player = player.get_player(firstname, last_name=lastname)
 		#print get_player
@@ -86,7 +105,7 @@ for key in players.keys():
 		player_summary = player.PlayerSummary(player_id)
 		team_name = player_summary.info()["TEAM_CITY"][0] +' '+ player_summary.info()["TEAM_NAME"][0]
 
-		print firstname, lastname+':', team_name
+		print i, firstname, lastname+':', team_name
 		birthday = player_summary.info()["BIRTHDATE"][0].split('T')[0]
 		from_year = player_summary.info()["FROM_YEAR"][0]
 		jersey = player_summary.info()["JERSEY"][0]
@@ -99,6 +118,7 @@ for key in players.keys():
 	                  {'lastname': lastname, 'firstname': firstname},
 	                  {
 	                    "$set" :  {'birthdate':birthday,
+	                    			'team':team_name,
 	                    			'from_year':from_year,
 	                    			'jersey':jersey,
 	                    			'school':school,
@@ -107,4 +127,3 @@ for key in players.keys():
 	                )
 	except:
 		print 'player not found'
-'''
